@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Cliente": {
+    "cliente": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -25,10 +25,11 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.min.js"]
           },
           "configurations": {
             "production": {
@@ -61,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Cliente:build:production"
+              "browserTarget": "cliente:build:production"
             },
             "development": {
-              "browserTarget": "Cliente:build:development"
+              "browserTarget": "cliente:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -72,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Cliente:build"
+            "browserTarget": "cliente:build"
           }
         },
         "test": {
@@ -89,8 +90,7 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css",
-              "./node_modules/bootstrap-grid-only-css/dist/css/bootstrap-grid.min.css"
+              "src/styles.css"
             ],
             "scripts": []
           }
@@ -99,6 +99,6 @@
     }
   },
   "cli": {
-    "analytics": "e64e7f3f-6a7b-4ddc-9244-ea70a8ada054"
+    "analytics": "4c338c22-5f95-4f53-b62d-7b3cab790c76"
   }
 }

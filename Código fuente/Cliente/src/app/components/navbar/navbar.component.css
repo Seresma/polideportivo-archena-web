@@ -1,0 +1,23 @@
+@media (max-width: 420px) {
+  .navbar-brand {
+    font-size: 1.1rem; /* Tamaño de fuente para pantallas pequeñas */
+  }
+}
+
+@media (max-width: 380px) {
+  .navbar-brand {
+    font-size: 0.9rem; /* Tamaño de fuente para pantallas pequeñas */
+  }
+}
+
+@media (max-width: 335px) {
+  .navbar-brand {
+    font-size: 0.85rem; /* Tamaño de fuente para pantallas pequeñas */
+  }
+}
+
+@media (max-width: 318px) {
+  .navbar-brand {
+    font-size: 0.69rem; /* Tamaño de fuente para pantallas pequeñas */
+  }
+}
