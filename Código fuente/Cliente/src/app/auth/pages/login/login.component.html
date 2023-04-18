@@ -3,23 +3,27 @@
     <h1 class="text-center">Inicia sesión</h1>
   </div>
   <mat-card-content>
-    <form class="my-form d-flex flex-column align-items-center">
+    <form class="my-form d-flex flex-column align-items-center"
+          autocomplete="off"
+          [formGroup]="miFormulario"
+          (ngSubmit)="login()">
       <mat-form-field appearance="fill" class="mb-3">
         <mat-label>Usuario</mat-label>
-        <input matInput [formControl]="username" required>
-        <mat-error *ngIf="username.invalid">{{getUsernameErrorMessage()}}</mat-error>
+        <input matInput formControlName="username" [formControl]="usernameControl" required>
+        <mat-error *ngIf="usernameControl.invalid">{{getUsernameErrorMessage()}}</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="mb-4">
         <mat-label>Contraseña</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="password" required>
-        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" [formControl]="passwordControl" required>
+        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+        <mat-error *ngIf="passwordControl.invalid">{{getPasswordErrorMessage()}}</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" class="mb-3">Iniciar sesión</button>
+      <button type="submit" mat-raised-button color="primary" class="mb-3">Iniciar sesión</button>
     </form>
     <hr class="mx-auto">
-    <p class="text-center">¿No tienes cuenta? <a href="/auth/signup">Regístrate aquí.</a></p>
+    <p class="text-center">¿No tienes cuenta? <a routerLink="/auth/signup">Regístrate aquí.</a></p>
   </mat-card-content>
 </div>

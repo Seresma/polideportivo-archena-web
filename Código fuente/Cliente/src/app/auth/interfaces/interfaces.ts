@@ -1,0 +1,16 @@
+
+export interface AuthResponse {
+  token?: string;
+  message?: string;
+  rol?: string;
+  username?: string;
+  email?: string;
+  id?: number;
+}
+
+export interface Usuario {
+  id: number;
+  username: string;
+  email: string;
+  rol: string;
+}

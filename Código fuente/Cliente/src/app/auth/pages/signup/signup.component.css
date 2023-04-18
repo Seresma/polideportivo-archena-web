@@ -24,3 +24,15 @@ hr {
     width: 90%;
   }
 }
+
+@media (max-width: 420px) {
+  #confirmarContraseñaField {
+    margin-top: 0.3rem;
+  }
+}
+
+@media (max-width: 780px) {
+  #contraseñaField {
+    margin-top: 0.6rem;
+  }
+}

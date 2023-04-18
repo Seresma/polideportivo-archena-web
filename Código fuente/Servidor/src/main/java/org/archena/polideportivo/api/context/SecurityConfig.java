@@ -57,7 +57,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         if (GlobalConfig.IS_AUTHENTICATION_ENABLE)
-            return (web) -> web.ignoring().mvcMatchers("/swagger-ui.html/**", "/configuration/**", "/swagger-resources/**", "/v2/api-docs", "/webjars/**");
+            return (web) -> web.ignoring().mvcMatchers("/swagger-ui/**", "/configuration/**", "/swagger-resources/**", "/v2/api-docs", "/webjars/**");
         else
             return (web) -> web.ignoring().mvcMatchers("/**");
     }

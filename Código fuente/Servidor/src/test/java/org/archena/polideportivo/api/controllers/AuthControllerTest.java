@@ -45,7 +45,12 @@ public class AuthControllerTest {
                                 "\"email\":\"user@gmail.com\"," +
                                 "\"rol\":\"USER\"}"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("User registered successfully!"));
+                .andExpect(status().isOk())
+                .andExpect((jsonPath("$.username").value("user")))
+                .andExpect((jsonPath("$.id").isNotEmpty()))
+                .andExpect((jsonPath("$.rol").value("USER")))
+                .andExpect((jsonPath("$.type").value("Bearer")))
+                .andExpect((jsonPath("$.token").isNotEmpty()));
     }
 
     @Test
@@ -57,7 +62,11 @@ public class AuthControllerTest {
                                 "\"email\":\"user@gmail.com\"," +
                                 "\"rol\":\"ADMIN\"}"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("User registered successfully!"));
+                .andExpect((jsonPath("$.username").value("user")))
+                .andExpect((jsonPath("$.id").isNotEmpty()))
+                .andExpect((jsonPath("$.rol").value("ADMIN")))
+                .andExpect((jsonPath("$.type").value("Bearer")))
+                .andExpect((jsonPath("$.token").isNotEmpty()));
     }
 
     @Test
@@ -148,7 +157,7 @@ public class AuthControllerTest {
                                 "\"email\":\"user@gmail.com\"," +
                                 "\"rol\":\"USER\"}"))
                 .andExpect(status().isBadRequest())
-                .andExpect((jsonPath("$.message").value("There is already a user with username: user")));
+                .andExpect((jsonPath("$.message").value("Este nombre ya está registrado, por favor elige otro.")));
     }
 
     @Test
@@ -161,7 +170,7 @@ public class AuthControllerTest {
                                 "\"email\":\"user@gmail.com\"," +
                                 "\"rol\":\"USER\"}"))
                 .andExpect(status().isBadRequest())
-                .andExpect((jsonPath("$.message").value("There is already a user with email: user@gmail.com")));
+                .andExpect((jsonPath("$.message").value("Este email ya está registrado, por favor elige otro.")));
     }
 
     @Test

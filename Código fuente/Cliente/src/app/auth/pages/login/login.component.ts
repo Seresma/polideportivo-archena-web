@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import {FormControl, Validators} from "@angular/forms";
+import {Component} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
+import {AuthService} from "../../services/auth.service";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -7,23 +10,43 @@ import {FormControl, Validators} from "@angular/forms";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  username = new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Z]+([a-zA-Z0-9]+)*$")]);
-  password = new FormControl('', [Validators.required, Validators.pattern("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+])(?=.*[a-zA-Z]).{8,}$")]);
+
+  usernameControl = new FormControl('', [Validators.required]);
+  passwordControl = new FormControl('', [Validators.required]);
+
+  miFormulario: FormGroup = this.fb.group({
+    username: this.usernameControl,
+    password: this.passwordControl
+  });
+
+
   hide = true;
 
-  getUsernameErrorMessage() {
-    if (this.username.hasError('required')) {
-      return 'Por favor indica tu nombre de usuario.';
-    }
+  constructor(private fb: FormBuilder,
+              private router: Router,
+              private authService: AuthService) {
+  }
 
-    return this.username.hasError('pattern') ? 'Nombre de usuario no válido.' : '';
+  login() {
+    if (this.miFormulario.valid) {
+      const {username, password} = this.miFormulario.value;
+      this.authService.login(username, password)
+        .subscribe( ok => {
+          if (ok === true) {
+            this.router.navigateByUrl('/dashboard')
+          } else{
+            Swal.fire('Error', 'Nombre de usuario o contraseña incorrectos.', 'error');
+          }
+        });
+    }
+  }
+
+  getUsernameErrorMessage() {
+    return this.usernameControl.hasError('required') ? 'Por favor indica tu nombre de usuario.' : '';
   }
 
   getPasswordErrorMessage() {
-    if (this.password.hasError('required')) {
-      return 'Por favor indica tu contraseña.';
-    }
-
-    return this.password.hasError('pattern') ? 'Contraseña no válida.' : '';
+    return this.passwordControl.hasError('required') ? 'Por favor indica tu contraseña.' : '';
   }
+
 }

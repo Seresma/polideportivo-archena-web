@@ -15,11 +15,11 @@ import {ReactiveFormsModule} from "@angular/forms";
     SignupComponent,
     MainComponent
   ],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    AngularMaterialModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        AuthRoutingModule,
+        AngularMaterialModule,
+        ReactiveFormsModule
+    ]
 })
 export class AuthModule { }

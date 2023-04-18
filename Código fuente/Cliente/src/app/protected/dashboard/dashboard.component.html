@@ -1,1 +1,11 @@
-<p>dashboard works!</p>
+<h1>Dashboard</h1>
+<hr>
+
+<p>
+  Esta página solo funciona si estás autenticado
+</p>
+
+<h4>Información del usuario</h4>
+<pre>{{usuario | json}}</pre>
+
+<button (click)="logout()" mat-raised-button color="primary">Cerrar sesión</button>

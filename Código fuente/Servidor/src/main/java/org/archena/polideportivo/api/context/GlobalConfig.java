@@ -9,7 +9,7 @@ public class GlobalConfig {
 
 
     // To run non-authorized run tests this must be false, true if so
-    public static final boolean IS_AUTHENTICATION_ENABLE = false;
+    public static final boolean IS_AUTHENTICATION_ENABLE = true;
     // To run non-authorized tests this must be false, true if so
     public static final boolean IS_DATA_INITIALIZATION_ENABLE = false;
 
