@@ -11,15 +11,51 @@
           <a class="nav-link" routerLink="/inicio">Inicio</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/dashboard">Reservar</a>
+          <a class="nav-link" routerLink="/dashboard">Alquiler de pistas</a>
+        </li>
+        <li class="nav-item">
+          <a
+            *ngIf="authService.isUserAdmin()"
+            class="nav-link" routerLink="/dashboard">
+            Admin
+          </a>
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/auth/login">Iniciar sesión</a>
+          <a
+            *ngIf="!authService.isLoggedIn()"
+            class="nav-link" routerLink="/auth/login">
+            Iniciar sesión
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/auth/signup">Regístrate</a>
+          <a
+            *ngIf="!authService.isLoggedIn()"
+            class="nav-link" routerLink="/auth/signup">
+            Regístrate
+          </a>
+        <li class="nav-item">
+          <a
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link" routerLink="/auth/dashboard">
+            Mi perfil
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link" routerLink="/auth/dashboard">
+            Mis reservas
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            *ngIf="authService.isLoggedIn()"
+            (click)="logout()"
+            class="nav-link" routerLink="/auth/login">
+            Cerrar sesión
+          </a>
         </li>
       </ul>
     </div>

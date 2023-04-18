@@ -85,4 +85,14 @@ export class AuthService {
     localStorage.clear();
   }
 
+  isLoggedIn(): boolean {
+    const token = localStorage.getItem('token');
+
+    return token !== undefined && token !== null && token !== '';
+  }
+
+  isUserAdmin(): boolean {
+    return this._usuario && this._usuario.rol === 'ADMIN';
+  }
+
 }
