@@ -14,3 +14,15 @@ export interface Usuario {
   email: string;
   rol: string;
 }
+
+export interface ReservationResponse {
+  id?: number;
+  name?: string;
+  sport?: string;
+  track?: string;
+  startDate?: Date;
+  endDate?: Date;
+  day?: Date;
+  state?: string;
+}
+

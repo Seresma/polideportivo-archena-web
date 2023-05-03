@@ -1,0 +1,40 @@
+<button mat-icon-button style="float: right; margin: 5px" (click)="onNoClick()">
+  <mat-icon>close</mat-icon>
+</button>
+
+<mat-dialog-content class="dialog-content">
+  <header><h1>Detalles</h1></header>
+  <h2>{{this.deporteReserva}} - {{this.pistaReserva}}</h2>
+  <h4><b>Día: </b>{{this.endDate.toLocaleDateString()}}</h4>
+  <h4><b>Hora: </b>{{ startDate | date: 'HH:mm' }}
+    - {{ endDate | date: 'HH:mm' }}</h4>
+  <h3 *ngIf="this.deporteReserva === 'Fútbol'"><b>Importe total: </b> 15.00 €</h3>
+  <h3 *ngIf="this.deporteReserva === 'Tenis'"><b>Importe total: </b> 8.00 €</h3>
+  <h3 *ngIf="this.deporteReserva === 'Baloncesto'"><b>Importe total: </b> 10.00 €</h3>
+  <h3 *ngIf="this.deporteReserva === 'Frontón'"><b>Importe total: </b> 5.00 €</h3>
+  <h3 *ngIf="this.deporteReserva === 'Natación'"><b>Importe total: </b> 6.50 €</h3>
+  <form class="my-form d-flex flex-column"
+        autocomplete="off"
+        [formGroup]="miFormulario"
+        (ngSubmit)="reservar()">
+    <mat-form-field appearance="fill" class="mb-3">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="username" [formControl]="usernameControl" required>
+      <mat-icon matSuffix>person</mat-icon>
+      <mat-error *ngIf="usernameControl.invalid">{{getUsernameErrorMessage()}}</mat-error>
+    </mat-form-field>
+  </form>
+
+
+</mat-dialog-content>
+
+<div mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" (click)="reservar()">
+    <mat-icon>event_available</mat-icon>
+    Reservar
+  </button>
+  <button mat-raised-button color="warn" (click)="onNoClick()">
+    <mat-icon>cancel</mat-icon>
+    Cancelar
+  </button>
+</div>

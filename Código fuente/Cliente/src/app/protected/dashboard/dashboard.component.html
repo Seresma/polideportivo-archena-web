@@ -1,11 +1,120 @@
-<h1>Dashboard</h1>
-<hr>
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title class="title">Alquiler de pistas</mat-card-title>
+      <mat-card-subtitle class="subtitle">Selecciona una actividad y una fecha</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Actividad</mat-label>
+        <mat-select [(ngModel)]="deporteElegido">
+          <mat-option *ngFor="let deporte of deportes" [value]="deporte">{{deporte}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-<p>
-  Esta página solo funciona si estás autenticado
-</p>
+      <br>
 
-<h4>Información del usuario</h4>
-<pre>{{usuario | json}}</pre>
+      <mat-form-field>
+        <mat-label>Día</mat-label>
+        <input matInput [matDatepicker]="picker" [min]="fechaMinima" [max]="fechaMaxima"
+               placeholder="Selecciona una fecha" [(ngModel)]="fechaElegida">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
 
-<button (click)="logout()" mat-raised-button color="primary">Cerrar sesión</button>
+      <br>
+
+      <div class="text-center">
+        <button mat-fab extended color="primary" (click)="buscar()">
+          <mat-icon>search</mat-icon>
+          Buscar
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="container" *ngIf="this.deporteBuscado === 'Todos' || this.deporteBuscado === 'Fútbol'">
+    <mat-card-header>
+      <mat-card-title class="title"><mat-icon class="icon">sports_soccer</mat-icon>  Fútbol</mat-card-title>
+      <mat-card-subtitle class="subtitle">Campo municipal de fútbol "Andrés Abenza"</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <img src="assets/campo_de_futbol.jpg">
+      <div class="reservations-container">
+          <div *ngFor="let slot of futbolSlots">
+            <button mat-stroked-button [disabled]="this.fechaBuscada.getDay() === 6 || this.fechaBuscada.getDay() == 0 || slot.isReserved" class="reservationButton" (click)="openDialog(slot.start, slot.end, 'Fútbol', this.pistaFutbol)">{{ slot.start | date: 'HH:mm' }}
+              - {{ slot.end | date: 'HH:mm' }}</button>
+          </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="container" *ngIf="this.deporteBuscado === 'Todos' || this.deporteBuscado === 'Tenis'">
+    <mat-card-header>
+      <mat-card-title class="title"><mat-icon class="icon">sports_tennis</mat-icon>  Tenis</mat-card-title>
+      <mat-card-subtitle class="subtitle">{{this.pistaTenis}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <img src="assets/pistaTenis.jpg">
+      <div class="reservations-container">
+        <div *ngFor="let slot of tenisSlots">
+          <button mat-stroked-button [disabled]="slot.isReserved" class="reservationButton" (click)="openDialog(slot.start, slot.end, 'Tenis', this.pistaTenis)">{{ slot.start | date: 'HH:mm' }}
+            - {{ slot.end | date: 'HH:mm' }}</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="container" *ngIf="this.deporteBuscado === 'Todos' || this.deporteBuscado === 'Baloncesto'">
+    <mat-card-header>
+      <mat-card-title class="title"><mat-icon class="icon">sports_basketball</mat-icon>  Baloncesto</mat-card-title>
+      <mat-card-subtitle class="subtitle">{{this.pistaBaloncesto}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <img src="assets/pabellon_municipal.jpg">
+      <div class="reservations-container">
+        <div *ngFor="let slot of baloncestoSlots">
+          <button mat-stroked-button [disabled]="slot.isReserved" class="reservationButton" (click)="openDialog(slot.start, slot.end, 'Baloncesto', this.pistaBaloncesto)">{{ slot.start | date: 'HH:mm' }}
+            - {{ slot.end | date: 'HH:mm' }}</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="container" *ngIf="this.deporteBuscado === 'Todos' || this.deporteBuscado === 'Frontón'">
+    <mat-card-header>
+      <mat-card-title class="title"><mat-icon class="icon">radio_button_unchecked</mat-icon>  Frontón</mat-card-title>
+      <mat-card-subtitle class="subtitle">{{this.pistaFronton}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <img src="assets/fronton.jpg">
+      <div class="reservations-container">
+        <div *ngFor="let slot of frontonSlots">
+          <button mat-stroked-button [disabled]="slot.isReserved" class="reservationButton" (click)="openDialog(slot.start, slot.end, 'Frontón', this.pistaFronton)">{{ slot.start | date: 'HH:mm' }}
+            - {{ slot.end | date: 'HH:mm' }}</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="container" *ngIf="this.deporteBuscado === 'Todos' || this.deporteBuscado === 'Natación'">
+    <mat-card-header>
+      <mat-card-title class="title"><mat-icon class="icon">pool</mat-icon>  Natación</mat-card-title>
+      <mat-card-subtitle class="subtitle">{{this.pistaNatacion}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <img src="assets/piscina_climatizada_Archena.jpg">
+      <div class="reservations-container">
+        <div *ngFor="let slot of natacionSlots">
+          <button mat-stroked-button [disabled]="slot.isReserved" class="reservationButton" (click)="openDialog(slot.start, slot.end, 'Natación', this.pistaNatacion)">{{ slot.start | date: 'HH:mm' }}
+            - {{ slot.end | date: 'HH:mm' }}</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+
+
+

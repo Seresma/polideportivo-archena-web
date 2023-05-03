@@ -69,6 +69,9 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/polideportivo" + "/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/polideportivo"  + "/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/polideportivo"  + "/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/polideportivo"  + "/**").hasAnyRole( "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/polideportivo"  + "/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/csrf").permitAll()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated();

@@ -10,11 +10,13 @@
       <mat-form-field appearance="fill" class="mb-3">
         <mat-label>Email</mat-label>
         <input matInput formControlName="email" placeholder="correo@ejemplo.com" [formControl]="emailControl" required>
+        <mat-icon matSuffix>email</mat-icon>
         <mat-error *ngIf="emailControl.invalid">{{getEmailErrorMessage()}}</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="mb-3">
         <mat-label>Usuario</mat-label>
         <input matInput formControlName="username" [formControl]="usernameControl" required>
+        <mat-icon matSuffix>person</mat-icon>
         <mat-error *ngIf="usernameControl.invalid">{{getUsernameErrorMessage()}}</mat-error>
       </mat-form-field>
       <mat-form-field id="contraseñaField" appearance="fill" class="mb-4">

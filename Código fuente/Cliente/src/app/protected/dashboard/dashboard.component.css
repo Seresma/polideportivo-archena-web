@@ -1,4 +1,34 @@
-h1 {
+.container {
   margin-top: 50px;
-  margin-left: 10px;
+  margin-bottom: 50px;
+}
+
+.title {
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  margin-bottom: 10px;
+}
+
+.reservations-container {
+  display: inline-flex;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.reservationButton {
+  margin: 5px;
+}
+
+.icon {
+  vertical-align: middle;
+  margin-bottom: 5px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  margin-right: 20px;
+  margin-bottom: 10px;
 }
