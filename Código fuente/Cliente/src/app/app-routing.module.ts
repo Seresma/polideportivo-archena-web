@@ -10,7 +10,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'dashboard',
+    path: 'alquilar_pistas',
     loadChildren: () => import('./protected/protected.module').then( m => m.ProtectedModule),
     canActivate: [ValidarTokenGuard],
     canLoad: [ValidarTokenGuard]

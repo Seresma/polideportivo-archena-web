@@ -33,7 +33,7 @@ export class LoginComponent {
       this.authService.login(username, password)
         .subscribe( ok => {
           if (ok === true) {
-            this.router.navigateByUrl('/dashboard')
+            this.router.navigateByUrl('/alquilar_pistas')
           } else{
             Swal.fire('Error', 'Nombre de usuario o contraseña incorrectos.', 'error');
           }

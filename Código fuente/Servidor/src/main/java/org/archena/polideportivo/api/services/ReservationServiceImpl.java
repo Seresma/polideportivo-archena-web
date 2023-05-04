@@ -37,6 +37,25 @@ public class ReservationServiceImpl {
         reservation.setDay(reservation.getStartDate().toLocalDate());
         reservation.setUser(this.userRepository.findByUsername(currentUserName));
         reservation.setState(StateEnum.PENDIENTE);
+        reservation.setCreatedDate(LocalDateTime.now());
+
+        switch (reservation.getSport()) {
+            case "Fútbol":
+                reservation.setCost(15.00);
+                break;
+            case "Tenis":
+                reservation.setCost(8.00);
+                break;
+            case "Baloncesto":
+                reservation.setCost(10.00);
+                break;
+            case "Frontón":
+                reservation.setCost(5.00);
+                break;
+            case "Natación":
+                reservation.setCost(6.50);
+                break;
+        }
 
         return this.reservationRepository.save(reservation);
     }

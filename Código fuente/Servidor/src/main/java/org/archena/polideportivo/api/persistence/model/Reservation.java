@@ -28,6 +28,10 @@ public class Reservation {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
+    private LocalDateTime createdDate;
+
+    private Double cost;
+
     private LocalDate day;
 
     private StateEnum state;

@@ -38,7 +38,7 @@ export class SignupComponent {
       this.authService.signup(email, username, password1,"USER")
         .subscribe( ok => {
           if (ok === true) {
-            this.router.navigateByUrl('/dashboard')
+            this.router.navigateByUrl('/alquilar_pistas')
           } else{
             Swal.fire('Error', ok, 'error');
           }

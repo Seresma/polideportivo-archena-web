@@ -24,5 +24,7 @@ export interface ReservationResponse {
   endDate?: Date;
   day?: Date;
   state?: string;
+  cost?: number;
+  createdDate?: Date;
 }
 

@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/inicio">Polideportivo Municipal de Archena</a>
+    <a class="navbar-brand" routerLink="/inicio">
+      Polideportivo Municipal de Archena
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -8,16 +10,23 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/inicio">Inicio</a>
+          <a class="nav-link" routerLink="/inicio">
+            <mat-icon>home</mat-icon>
+            Inicio
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/dashboard">Alquiler de pistas</a>
+          <a class="nav-link" routerLink="/alquilar_pistas">
+            <mat-icon>event</mat-icon>
+            Alquiler de pistas
+          </a>
         </li>
         <li class="nav-item">
           <a
             *ngIf="authService.isUserAdmin()"
-            class="nav-link" routerLink="/dashboard">
-            Admin
+            class="nav-link" routerLink="/alquilar_pistas">
+            <mat-icon>supervisor_account</mat-icon>
+            Panel administrador
           </a>
         </li>
       </ul>
@@ -26,6 +35,7 @@
           <a
             *ngIf="!authService.isLoggedIn()"
             class="nav-link" routerLink="/auth/login">
+            <mat-icon>login</mat-icon>
             Iniciar sesión
           </a>
         </li>
@@ -33,20 +43,15 @@
           <a
             *ngIf="!authService.isLoggedIn()"
             class="nav-link" routerLink="/auth/signup">
+            <mat-icon>person_add</mat-icon>
             Regístrate
           </a>
         <li class="nav-item">
           <a
             *ngIf="authService.isLoggedIn()"
-            class="nav-link" routerLink="/auth/dashboard">
-            Mi perfil
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            *ngIf="authService.isLoggedIn()"
-            class="nav-link" routerLink="/auth/dashboard">
-            Mis reservas
+            class="nav-link" routerLink="/perfil">
+            <mat-icon>account_circle</mat-icon>
+            {{this.authService.usuario.username}}
           </a>
         </li>
         <li class="nav-item">
@@ -54,6 +59,7 @@
             *ngIf="authService.isLoggedIn()"
             (click)="logout()"
             class="nav-link" routerLink="/auth/login">
+            <mat-icon>logout</mat-icon>
             Cerrar sesión
           </a>
         </li>
