@@ -13,7 +13,7 @@ export class SignupComponent {
 
   emailControl = new FormControl('', [Validators.required, Validators.email]);
   usernameControl = new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Z0-9]+([a-zA-Z0-9]+)*$"), Validators.minLength(3)]);
-  password1Control = new FormControl('', [Validators.required, Validators.pattern("^(?=.*[a-zA-Z])(?=.*[\\W_])(?!.*\\s).{8,}$")]);
+  password1Control = new FormControl('', [Validators.required, Validators.pattern("^(?=.*[a-zA-Z0-9])(?=.*[\\W_])(?!.*\\s).{8,}$")]);
   password2Control = new FormControl('', [Validators.required, this.passwordMatchValidator]);
 
 

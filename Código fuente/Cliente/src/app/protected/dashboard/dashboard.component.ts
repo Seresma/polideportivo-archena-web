@@ -58,6 +58,8 @@ export class DashboardComponent {
   natacionReservations: ReservationResponse[] = [];
   pistaNatacion = 'Piscina municipal climatizada';
 
+  isLoading = false;
+
   constructor(private router: Router,
               private dateAdapter: DateAdapter<Date>,
               private reservationService: ReservationService,
@@ -79,36 +81,42 @@ export class DashboardComponent {
 
     switch (this.deporteBuscado) {
       case 'Fútbol':
+        this.esperarAleatorio();
         this.reservationService.getReservations(this.parseDate(), this.pistaFutbol)
           .subscribe(reservations => {
             this.futbolSlots = this.reservationService.getFutbolSlots(this.deporteBuscado, this.fechaBuscada, reservations);
           });
         break;
       case 'Tenis':
+        this.esperarAleatorio();
         this.reservationService.getReservations(this.parseDate(), this.pistaTenis)
           .subscribe(reservations => {
             this.tenisSlots = this.reservationService.getTenisSlots(this.deporteBuscado, this.fechaBuscada, reservations);
           });
         break;
       case 'Baloncesto':
+        this.esperarAleatorio();
         this.reservationService.getReservations(this.parseDate(), this.pistaBaloncesto)
           .subscribe(reservations => {
             this.baloncestoSlots = this.reservationService.getBaloncestoSlots(this.deporteBuscado, this.fechaBuscada, reservations);
           });
         break;
       case 'Frontón':
+        this.esperarAleatorio();
         this.reservationService.getReservations(this.parseDate(), this.pistaFronton)
           .subscribe(reservations => {
             this.frontonSlots = this.reservationService.getFrontonSlots(this.deporteBuscado, this.fechaBuscada, reservations);
           });
         break;
       case 'Natación':
+        this.esperarAleatorio();
         this.reservationService.getReservations(this.parseDate(), this.pistaNatacion)
           .subscribe(reservations => {
             this.natacionSlots = this.reservationService.getNatacionSlots(this.deporteBuscado, this.fechaBuscada, reservations);
           });
         break;
       default:
+        this.esperarAleatorio();
         this.reservationService.getReservations(this.parseDate(), this.pistaFutbol)
           .subscribe(reservations => {
             this.futbolSlots = this.reservationService.getFutbolSlots(this.deporteBuscado, this.fechaBuscada, reservations);
@@ -159,6 +167,19 @@ export class DashboardComponent {
     const dateString = `${year}-${month}-${day}`; // unir los valores en un string con el formato deseado
 
     return dateString;
+  }
+
+  esperarAleatorio() {
+    this.isLoading = true;
+    const randomDelay = Math.random();
+
+    // Convertir el valor aleatorio a milisegundos
+    const delayInMs = randomDelay * 1000;
+
+    // Ejecutar una función después del tiempo aleatorio
+    setTimeout(() => {
+      this.isLoading = false;
+    }, delayInMs);
   }
 
 

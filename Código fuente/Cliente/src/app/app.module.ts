@@ -10,18 +10,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material.module';
 import {HttpClientModule} from "@angular/common/http";
 import {MAT_DATE_LOCALE} from "@angular/material/core";
+import {HomeComponent} from "./components/home/home.component";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularMaterialModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   exports: [
     AngularMaterialModule

@@ -1,0 +1,48 @@
+<div class="container">
+      <mat-card class="container">
+        <h1>Bienvenido a la página web de reservas del Polideportivo de Archena</h1>
+        <mat-card-content>
+          <div class="image-container">
+            <img src="assets/polideportivo_archena.jpg" alt="Imagen del polideportivo" class="responsive-image">
+          </div>
+
+          <h2>El lugar perfecto para practicar y disfrutar de múltiples deportes en un solo espacio.</h2>
+          <br>
+
+          <div class="facilities">
+            <h3><mat-icon class="icon">fitness_center</mat-icon> Instalaciones</h3>
+            <div class="sports-container">
+              <mat-card *ngFor="let sport of sports" class="sport-card">
+                <img [src]="sport.image" alt="Imagen del deporte" class="sport-image">
+                <mat-card-content>
+                  <mat-card-title class="card-title"><mat-icon class="icon">{{ sport.icon }}</mat-icon> {{ sport.name }}</mat-card-title>
+                  <p>{{ sport.description }}</p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+
+          <br>
+
+          <hr>
+          <div class="opening-hours">
+            <h3><mat-icon class="icon">schedule</mat-icon> Horario de apertura</h3>
+            <mat-list>
+              <mat-list-item>* Lunes a sábados: 17:00 - 23:00</mat-list-item>
+              <mat-list-item>* Domingos: 9:00 - 13:00</mat-list-item>
+            </mat-list>
+          </div>
+
+
+          <br>
+
+          <div class="contact-info">
+            <h3><mat-icon class="icon">info_outline</mat-icon> Información de contacto</h3>
+            <p>Dirección: Avda. Río Segura, 30600 Archena</p>
+            <p>Teléfono: 968 67 23 33</p>
+            <p>Email: info@polideportivoarchena.com</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+</div>
+

@@ -6,12 +6,16 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {AngularMaterialModule} from "../angular-material.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ReservationDialogComponent} from "../components/reservation-dialog/reservation-dialog.component";
+import { AdminComponent } from './admin/admin.component';
+import { UserComponent } from './user/user.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    ReservationDialogComponent
+    ReservationDialogComponent,
+    AdminComponent,
+    UserComponent
   ],
   imports: [
     CommonModule,

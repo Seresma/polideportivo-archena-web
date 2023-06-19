@@ -1,4 +1,9 @@
 <div class="container">
+
+  <div class="example-loading-shade" *ngIf="this.isLoading">
+    <mat-spinner *ngIf="this.isLoading"></mat-spinner>
+  </div>
+
   <mat-card>
     <mat-card-header>
       <mat-card-title class="title">Alquiler de pistas</mat-card-title>

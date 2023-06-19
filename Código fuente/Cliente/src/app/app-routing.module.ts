@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ValidarTokenGuard} from "./guards/validar-token.guard";
+import {AdminComponent} from "./protected/admin/admin.component";
+import {HomeComponent} from "./components/home/home.component";
+import {UserComponent} from "./protected/user/user.component";
 
 const routes: Routes = [
 
@@ -11,6 +14,32 @@ const routes: Routes = [
 
   {
     path: 'alquilar_pistas',
+    loadChildren: () => import('./protected/protected.module').then( m => m.ProtectedModule),
+    canActivate: [ValidarTokenGuard],
+    canLoad: [ValidarTokenGuard]
+  },
+
+  {
+    path: 'admin',
+    component: AdminComponent,
+    loadChildren: () => import('./protected/protected.module').then( m => m.ProtectedModule),
+    canActivate: [ValidarTokenGuard],
+    canLoad: [ValidarTokenGuard]
+  },
+
+  {
+    path: 'inicio',
+    component: HomeComponent
+  },
+
+  {
+    path: '',
+    component: HomeComponent
+  },
+
+  {
+    path: 'perfil',
+    component: UserComponent,
     loadChildren: () => import('./protected/protected.module').then( m => m.ProtectedModule),
     canActivate: [ValidarTokenGuard],
     canLoad: [ValidarTokenGuard]
