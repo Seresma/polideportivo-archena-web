@@ -1,0 +1,51 @@
+<button mat-icon-button style="float: right; margin: 5px" (click)="onNoClick()">
+  <mat-icon>close</mat-icon>
+</button>
+
+<mat-dialog-content class="dialog-content">
+  <header><h1>Crear nuevo usuario</h1></header>
+  <form class="my-form d-flex flex-column"
+        autocomplete="off"
+        [formGroup]="miFormulario"
+        (ngSubmit)="crear()">
+    <mat-form-field appearance="fill" class="mb-3">
+      <mat-label>Correo</mat-label>
+      <input matInput formControlName="email" placeholder="ejemplo@gmail.com" required>
+      <mat-icon matSuffix>email</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="mb-3">
+      <mat-label>Usuario</mat-label>
+      <input matInput formControlName="username" required>
+      <mat-icon matSuffix>person</mat-icon>
+    </mat-form-field>
+    <mat-form-field id="contraseñaField" appearance="fill" class="mb-4">
+      <mat-label>Contraseña</mat-label>
+      <input matInput formControlName="password" [type]="hide1 ? 'password' : 'text'" required>
+      <button type="button" mat-icon-button matSuffix (click)="hide1 = !hide1"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide1">
+        <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Rol</mat-label>
+      <mat-select formControlName="rol" [(ngModel)]="rolSeleccionado" required>
+        <mat-option value="ADMIN">ADMIN</mat-option>
+        <mat-option value="USER">USER</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+
+
+</mat-dialog-content>
+
+<div mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" (click)="crear()">
+    <mat-icon>add</mat-icon>
+    Crear
+  </button>
+  <button mat-raised-button color="warn" (click)="onNoClick()">
+    <mat-icon>cancel</mat-icon>
+    Cancelar
+  </button>
+</div>

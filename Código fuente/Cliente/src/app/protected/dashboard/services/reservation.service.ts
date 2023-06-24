@@ -30,7 +30,7 @@ export class ReservationService {
         const reservationStartDate = new Date(reservation.startDate!);
         const reservationEndDate = new Date(reservation.endDate!);
 
-        return slotStart.getTime() === reservationStartDate.getTime() && slotEnd.getTime() === reservationEndDate.getTime();
+        return slotStart.getTime() === reservationStartDate.getTime() && slotEnd.getTime() === reservationEndDate.getTime() && reservation.state !== "CANCELADA";
       });
 
       availableSlots.push({
@@ -59,7 +59,7 @@ export class ReservationService {
         const reservationStartDate = new Date(reservation.startDate!);
         const reservationEndDate = new Date(reservation.endDate!);
 
-        return slotStart.getTime() === reservationStartDate.getTime() && slotEnd.getTime() === reservationEndDate.getTime();
+        return slotStart.getTime() === reservationStartDate.getTime() && slotEnd.getTime() === reservationEndDate.getTime() && reservation.state !== "CANCELADA";
       });
 
       availableSlots.push({
@@ -88,7 +88,7 @@ export class ReservationService {
         const reservationStartDate = new Date(reservation.startDate!);
         const reservationEndDate = new Date(reservation.endDate!);
 
-        return slotStart.getTime() === reservationStartDate.getTime() && slotEnd.getTime() === reservationEndDate.getTime();
+        return slotStart.getTime() === reservationStartDate.getTime() && slotEnd.getTime() === reservationEndDate.getTime() && reservation.state !== "CANCELADA";
       });
 
       availableSlots.push({
@@ -117,7 +117,7 @@ export class ReservationService {
         const reservationStartDate = new Date(reservation.startDate!);
         const reservationEndDate = new Date(reservation.endDate!);
 
-        return slotStart.getTime() === reservationStartDate.getTime() && slotEnd.getTime() === reservationEndDate.getTime();
+        return slotStart.getTime() === reservationStartDate.getTime() && slotEnd.getTime() === reservationEndDate.getTime() && reservation.state !== "CANCELADA";
       });
 
       availableSlots.push({
@@ -146,7 +146,7 @@ export class ReservationService {
         const reservationStartDate = new Date(reservation.startDate!);
         const reservationEndDate = new Date(reservation.endDate!);
 
-        return slotStart.getTime() === reservationStartDate.getTime() && slotEnd.getTime() === reservationEndDate.getTime();
+        return slotStart.getTime() === reservationStartDate.getTime() && slotEnd.getTime() === reservationEndDate.getTime() && reservation.state !== "CANCELADA";
       });
 
       availableSlots.push({
@@ -165,6 +165,30 @@ export class ReservationService {
       .set('Authorization', `Bearer ${localStorage.getItem('token')}` || '');
 
     return this.http.get<ReservationResponse[]>(url, {headers});
+  }
+
+  getReservationsById(id: number): Observable<ReservationResponse[]> {
+    const url = `${this.baseUrl}/reservasUsuario?id=${id}`;
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}` || '');
+
+    return this.http.get<ReservationResponse[]>(url, {headers});
+  }
+
+  cancelReservationById(id: number): Observable<ReservationResponse> {
+    const url = `${this.baseUrl}/cancelarReserva?id=${id}`;
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}` || '');
+
+    return this.http.put<ReservationResponse>(url, {headers});
+  }
+
+  payReservationById(id: number): Observable<ReservationResponse> {
+    const url = `${this.baseUrl}/pagarReserva?id=${id}`;
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}` || '');
+
+    return this.http.put<ReservationResponse>(url, {headers});
   }
 
   reservar(nombre: string, deporte: string, pista: string, fechaInicio: Date, fechaFin: Date) {
@@ -187,4 +211,19 @@ export class ReservationService {
   }
 
 
+  getAllReservationsByDay(date: string): Observable<ReservationResponse[]> {
+    const url = `${this.baseUrl}/reservasAll?day=${date}`;
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}` || '');
+
+    return this.http.get<ReservationResponse[]>(url, {headers});
+  }
+
+  getAllReservations() {
+    const url = `${this.baseUrl}/reservasTodas`;
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}` || '');
+
+    return this.http.get<ReservationResponse[]>(url, {headers});
+  }
 }

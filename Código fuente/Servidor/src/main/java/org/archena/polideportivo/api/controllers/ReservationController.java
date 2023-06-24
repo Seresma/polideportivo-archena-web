@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/polideportivo")
 @AllArgsConstructor
@@ -43,6 +44,61 @@ public class ReservationController {
     @GetMapping("/reservas")
     public List<Reservation> findReservationsByDayAndTrack(@RequestParam String day, @RequestParam String track) {
         return this.reservationService.findReservationsByDayAndTrack(day, track);
+    }
+
+    @ApiOperation(value = "Finds all reservations by user id", response = Reservation[].class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful operation"),
+            @ApiResponse(code = 401, message = "You must register to do this operation"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @GetMapping("/reservasUsuario")
+    public List<Reservation> findReservationsByUserId(@RequestParam Long id) {
+        return this.reservationService.findReservationsByUserId(id);
+    }
+
+    @ApiOperation(value = "Pays a reservation by id", response = Reservation[].class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful operation"),
+            @ApiResponse(code = 401, message = "You must register to do this operation"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @PutMapping("/pagarReserva")
+    public ResponseEntity<Reservation> payReservation(@RequestParam Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.reservationService.payReservation(id));
+    }
+
+    @ApiOperation(value = "Cancels a reservation by id", response = Reservation[].class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful operation"),
+            @ApiResponse(code = 401, message = "You must register to do this operation"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @PutMapping("/cancelarReserva")
+    public ResponseEntity<Reservation> cancelReservation(@RequestParam Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.reservationService.cancelReservation(id));
+    }
+
+    @ApiOperation(value = "Finds all reservations by day", response = Reservation[].class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful operation"),
+            @ApiResponse(code = 401, message = "You must register to do this operation"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @GetMapping("/reservasAll")
+    public List<Reservation> findReservationsByDay(@RequestParam String day) {
+        return this.reservationService.findReservationsByDay(day);
+    }
+
+    @ApiOperation(value = "Finds all reservations", response = Reservation[].class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful operation"),
+            @ApiResponse(code = 401, message = "You must register to do this operation"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @GetMapping("/reservasTodas")
+    public List<Reservation> findReservationsByDay() {
+        return this.reservationService.findAll();
     }
 
 }

@@ -18,7 +18,7 @@
 
           <mat-form-field>
             <mat-label>Día</mat-label>
-            <input matInput [matDatepicker]="picker" [min]="fechaMinima" [max]="fechaMaxima"
+            <input matInput [matDatepicker]="picker"
                    placeholder="Selecciona una fecha" [(ngModel)]="fechaElegida">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
@@ -33,12 +33,178 @@
             </button>
           </div>
         </mat-card-content>
+
       </mat-card>
+
+      <mat-card-header *ngIf="deporteBuscado !== ''">
+        <mat-card-title class="title">
+          <mat-icon>event</mat-icon>
+          Tabla de reservas
+        </mat-card-title>
+      </mat-card-header>
+      <br>
+      <mat-card-content *ngIf="deporteBuscado !== ''">
+        <table mat-table [dataSource]="dataSourceReservas" matSort>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id</th>
+            <td mat-cell *matCellDef="let reserva"> {{reserva.id}} </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="track">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Instalación</th>
+            <td mat-cell *matCellDef="let reserva"> {{reserva.sport}} - {{reserva.track}}  </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+            <td mat-cell *matCellDef="let reserva"> {{reserva.name}}</td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="fechaCreated">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha creación</th>
+            <td mat-cell *matCellDef="let reserva"> {{this.parseDate2(reserva.createdDate)}} </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="fechaReserva">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha reserva</th>
+            <td mat-cell
+                *matCellDef="let reserva"> {{this.parseReservationDate(reserva.startDate, reserva.endDate)}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="coste">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Coste</th>
+            <td mat-cell *matCellDef="let reserva"> {{reserva.cost.toFixed(2)}} €</td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado</th>
+            <td mat-cell *matCellDef="let reserva"> {{reserva.state}} </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let reserva; let i = index">
+              <div class="acciones">
+                <div *ngIf="reserva.state === 'PENDIENTE'" >
+                  <button mat-icon-button style="color: darkgreen" matTooltip="Pagar reserva" (click)="pagar(reserva)">
+                    <mat-icon>attach_money</mat-icon>
+                  </button>
+                </div>
+                <div *ngIf="reserva.state === 'PENDIENTE'">
+                  <button mat-icon-button style="color: crimson"
+                          matTooltip="Cancelar reserva" (click)="cancelar(reserva)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsReservas"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsReservas;"></tr>
+        </table>
+        <!-- Paginación -->
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+
+
     </mat-tab>
-    <mat-tab label="Usuarios"> Content 2 </mat-tab>
-    <mat-tab label="Estadísticas"> Content 3 </mat-tab>
-  </mat-tab-group>
+    <mat-tab label="Usuarios">
+      <mat-card-header>
+        <mat-card-title class="title">
+          <mat-icon>manage_accounts</mat-icon>
+          Gestión de usuarios
+        </mat-card-title>
+        <div class="example-spacer"></div>
+        <button mat-raised-button color="primary" class="boton-nuevo-usuario" (click)="openNewUserDialog()">
+          Crear usuario
+          <mat-icon>person_add</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-form-field class="filtro">
+        <mat-label>Filtro</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Escribe..." #input>
+      </mat-form-field>
+      <mat-card-content>
+          <table mat-table [dataSource]="dataSource" matSort>
 
+            <!-- Name Column -->
+            <ng-container matColumnDef="username">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
+              <td mat-cell *matCellDef="let user"> {{user.username}} </td>
+            </ng-container>
 
+            <!-- Weight Column -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Email</th>
+              <td mat-cell *matCellDef="let user"> {{user.email}}  </td>
+            </ng-container>
 
-</div>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol</th>
+              <td mat-cell *matCellDef="let user"> {{user.role}} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let user; let i = index" class="acciones">
+                <button mat-icon-button (click)="openEditUserDialog(user)" style="color: gold" matTooltip="Editar usuario">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="eliminarUsuario(user, i)" style="color: crimson"
+                        matTooltip="Eliminar usuario">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <!-- Paginación -->
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+</mat-tab>
+<mat-tab label="Estadísticas">
+  <mat-card class="container">
+    <mat-card-header>
+      <mat-card-title class="title"><mat-icon>bar_chart</mat-icon> Estadísticas</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="statistics-container">
+        <div class="statistic">
+          <h3>Usuarios totales:</h3>
+          <p>{{this.numUsuarios}}</p>
+        </div>
+        <div class="statistic">
+          <h3>Número de reservas:</h3>
+          <p>{{this.numReservas}}</p>
+        </div>
+        <div class="statistic">
+          <h3>Dinero recaudado:</h3>
+          <p>{{this.costeTotal.toFixed(2)}} €</p>
+        </div>
+        <div class="statistic">
+          <h3>Deporte más jugado:</h3>
+          <p>{{this.deporteFav}}</p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-tab>
+</mat-tab-group>
+
+  <div class="example-loading-shade" *ngIf="this.isLoading">
+    <mat-spinner *ngIf="this.isLoading"></mat-spinner>
+  </div>
+

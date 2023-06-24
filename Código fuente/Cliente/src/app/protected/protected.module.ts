@@ -8,12 +8,16 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ReservationDialogComponent} from "../components/reservation-dialog/reservation-dialog.component";
 import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
+import {EditUserDialogComponent} from "../components/edit-user-dialog/edit-user-dialog.component";
+import {NewUserDialogComponent} from "../components/new-user-dialog/new-user-dialog.component";
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     ReservationDialogComponent,
+    EditUserDialogComponent,
+    NewUserDialogComponent,
     AdminComponent,
     UserComponent
   ],

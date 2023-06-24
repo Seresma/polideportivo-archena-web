@@ -9,6 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ReservationDialogComponent} from "../../components/reservation-dialog/reservation-dialog.component";
 import {ReservationResponse} from "../../auth/interfaces/interfaces";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {MatTableDataSource} from "@angular/material/table";
 
 
 @Component({
@@ -157,6 +158,54 @@ export class DashboardComponent {
         pistaReserva: this.pistaReserva,
       }
     });
+
+    switch (this.deporteReserva) {
+      case "Fútbol":
+        setTimeout(() => {
+          this.reservationService.getReservations(this.parseDate(), this.pistaFutbol)
+            .subscribe(reservations => {
+              this.futbolSlots = this.reservationService.getFutbolSlots(this.deporteBuscado, this.fechaBuscada, reservations);
+            });
+          // Aquí puedes poner el código que deseas ejecutar después de los 5 segundos
+        }, 5000);
+        break;
+      case "Baloncesto":
+        setTimeout(() => {
+          this.reservationService.getReservations(this.parseDate(), this.pistaBaloncesto)
+            .subscribe(reservations => {
+              this.baloncestoSlots = this.reservationService.getBaloncestoSlots(this.deporteBuscado, this.fechaBuscada, reservations);
+            });
+          // Aquí puedes poner el código que deseas ejecutar después de los 5 segundos
+        }, 5000);
+        break;
+      case "Tenis":
+        setTimeout(() => {
+          this.reservationService.getReservations(this.parseDate(), this.pistaTenis)
+            .subscribe(reservations => {
+              this.tenisSlots = this.reservationService.getTenisSlots(this.deporteBuscado, this.fechaBuscada, reservations);
+            });
+          // Aquí puedes poner el código que deseas ejecutar después de los 5 segundos
+        }, 5000);
+        break;
+      case "Frontón":
+        setTimeout(() => {
+          this.reservationService.getReservations(this.parseDate(), this.pistaFronton)
+            .subscribe(reservations => {
+              this.frontonSlots = this.reservationService.getFrontonSlots(this.deporteBuscado, this.fechaBuscada, reservations);
+            });
+          // Aquí puedes poner el código que deseas ejecutar después de los 5 segundos
+        }, 5000);
+        break;
+      case "Natación":
+        setTimeout(() => {
+          this.reservationService.getReservations(this.parseDate(), this.pistaNatacion)
+            .subscribe(reservations => {
+              this.natacionSlots = this.reservationService.getNatacionSlots(this.deporteBuscado, this.fechaBuscada, reservations);
+            });
+          // Aquí puedes poner el código que deseas ejecutar después de los 5 segundos
+        }, 5000);
+        break;
+    }
   }
 
 
@@ -174,7 +223,7 @@ export class DashboardComponent {
     const randomDelay = Math.random();
 
     // Convertir el valor aleatorio a milisegundos
-    const delayInMs = randomDelay * 1000;
+    const delayInMs = randomDelay * 1500;
 
     // Ejecutar una función después del tiempo aleatorio
     setTimeout(() => {

@@ -67,7 +67,7 @@ public class SecurityConfig {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/polideportivo" + "/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/polideportivo" + "/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/polideportivo"  + "/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/polideportivo"  + "/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/polideportivo"  + "/**").hasAnyRole( "ADMIN")

@@ -10,3 +10,56 @@
 .subtitle {
   margin-bottom: 10px;
 }
+
+@media (min-width: 1200px) {
+  mat-form-field {
+    width: 50%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .botonGuardar {
+    width: 15%;
+  }
+  .botonEditar {
+    width: 8%;
+  }
+}
+
+.button-container {
+  display: flex;
+}
+
+.botonEditar {
+  margin-right: 10px;
+}
+
+mat-icon {
+  vertical-align: middle;
+  margin-bottom: 3px;
+}
+
+.mat-column-id {
+  flex: 0 0 50px; /* Ajusta el valor según el ancho deseado */
+}
+
+.statistics-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statistic {
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .statistics-container {
+    display: block;
+  }
+}
+
+.acciones {
+  display: flex;
+}
+

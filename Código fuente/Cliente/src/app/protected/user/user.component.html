@@ -3,17 +3,170 @@
     <mat-tab label="Perfil">
       <mat-card class="container">
         <mat-card-header>
-          <mat-card-title class="title">{{this.nombre}}</mat-card-title>
+          <mat-card-title class="title">
+            <mat-icon>person</mat-icon>
+            {{this.nombre}}</mat-card-title>
           <mat-card-subtitle class="subtitle">Información del perfil</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
+          <form class="my-form d-flex flex-column"
+                autocomplete="off"
+                [formGroup]="miFormulario">
+            <mat-form-field appearance="fill" class="mb-3">
+              <input matInput formControlName="email" placeholder="{{this.correo}}" [formControl]="emailControl"
+                     [disabled]="editar">
+              <mat-icon matSuffix>email</mat-icon>
+              <mat-error *ngIf="emailControl.invalid">{{getEmailErrorMessage()}}</mat-error>
+            </mat-form-field>
+            <mat-form-field id="contraseñaField" appearance="fill" class="mb-4">
+              <mat-label>Nueva contraseña</mat-label>
+              <input matInput formControlName="password1" [type]="hide1 ? 'password' : 'text'"
+                     [formControl]="password1Control" [disabled]="true">
+              <button type="button" mat-icon-button matSuffix (click)="hide1 = !hide1"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hide1">
+                <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="password1Control.invalid">{{getPassword1ErrorMessage()}}</mat-error>
+              <mat-hint align="start">Al menos 8 caracteres, incluyendo 1 carácter especial.</mat-hint>
+            </mat-form-field>
+            <mat-form-field id="confirmarContraseñaField" appearance="fill" class="mb-3">
+              <mat-label>Confirma la contraseña</mat-label>
+              <input matInput formControlName="password2" [type]="hide2 ? 'password' : 'text'"
+                     [formControl]="password2Control">
+              <button type="button" mat-icon-button matSuffix (click)="hide2 = !hide2"
+                      [attr.aria-label]="'Hide password2'"
+                      [attr.aria-pressed]="hide2">
+                <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="password2Control.invalid">{{getPassword2ErrorMessage()}}</mat-error>
+            </mat-form-field>
+            <div class="button-container">
+              <button mat-raised-button class="botonEditar" color="warn" (click)="this.editar = true">Editar
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-raised-button class="botonGuardar" color="primary" type="submit" [disabled]="editar === false"
+                      (click)="saveUser()">Guardar cambios
+                <mat-icon>save</mat-icon>
+              </button>
+            </div>
+          </form>
         </mat-card-content>
       </mat-card>
     </mat-tab>
-    <mat-tab label="Reservas"> Content 2 </mat-tab>
-    <mat-tab label="Estadísticas"> Content 3 </mat-tab>
-  </mat-tab-group>
+    <mat-tab label="Reservas">
+      <mat-card-header>
+        <mat-card-title class="title">
+          <mat-icon>event</mat-icon>
+          Mis reservas
+        </mat-card-title>
+      </mat-card-header>
+      <br>
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSource" matSort>
 
+          <!-- Name Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id</th>
+            <td mat-cell *matCellDef="let reserva"> {{reserva.id}} </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="track">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Instalación</th>
+            <td mat-cell *matCellDef="let reserva">{{reserva.sport}} - {{reserva.track}}  </td>
+          </ng-container>
+
+
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="fechaCreated">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha creación</th>
+            <td mat-cell *matCellDef="let reserva"> {{this.parseDate(reserva.createdDate)}} </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="fechaReserva">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha reserva</th>
+            <td mat-cell
+                *matCellDef="let reserva"> {{this.parseReservationDate(reserva.startDate, reserva.endDate)}} </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+            <td mat-cell *matCellDef="let reserva"> {{reserva.name}}  </td>
+          </ng-container>
+
+          <ng-container matColumnDef="coste">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Coste</th>
+            <td mat-cell *matCellDef="let reserva"> {{reserva.cost.toFixed(2)}} €</td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado</th>
+            <td mat-cell *matCellDef="let reserva"> {{reserva.state}} </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let reserva; let i = index">
+              <div class="acciones">
+                <div *ngIf="reserva.state === 'PENDIENTE'" >
+                  <button mat-icon-button style="color: darkgreen" matTooltip="Pagar reserva" (click)="pagar(reserva)">
+                    <mat-icon>attach_money</mat-icon>
+                  </button>
+                </div>
+                <div *ngIf="reserva.state === 'PENDIENTE'">
+                  <button mat-icon-button style="color: crimson"
+                          matTooltip="Cancelar reserva" (click)="cancelar(reserva)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <!-- Paginación -->
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Estadísticas">
+      <mat-card class="container">
+        <mat-card-header>
+          <mat-card-title class="title">
+            <mat-icon>bar_chart</mat-icon>
+            Estadísticas
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="statistics-container">
+            <div class="statistic">
+              <h3>Miembro desde:</h3>
+              <p>23-06-2023 10:10</p>
+            </div>
+            <div class="statistic">
+              <h3>Número de reservas totales:</h3>
+              <p>{{this.numReservas}}</p>
+            </div>
+            <div class="statistic">
+              <h3>Dinero gastado el último mes:</h3>
+              <p>{{this.costeTotal.toFixed(2)}} €</p>
+            </div>
+            <div class="statistic">
+              <h3>Deporte más jugado:</h3>
+              <p>{{this.deporteFav}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
 
 
 </div>

@@ -9,4 +9,8 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     List<Reservation> findByDayAndTrack(LocalDate day, String track);
+
+    List<Reservation> findByUserId(Long id);
+
+    List<Reservation> findByDayOrderByStartDate(LocalDate dayParsed);
 }

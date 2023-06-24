@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -63,5 +64,38 @@ public class ReservationServiceImpl {
     public List<Reservation> findReservationsByDayAndTrack(String day, String track) {
         LocalDate dayParsed = LocalDate.parse(day);
         return reservationRepository.findByDayAndTrack(dayParsed, track);
+    }
+
+    public List<Reservation> findReservationsByUserId(Long id) {
+        return reservationRepository.findByUserId(id);
+    }
+
+    public Reservation payReservation(Long id) {
+        Optional<Reservation> reserva = this.reservationRepository.findById(id);
+
+        Reservation reservaReal = reserva.get();
+
+        reservaReal.setState(StateEnum.PAGADA);
+
+        return this.reservationRepository.save(reservaReal);
+    }
+
+    public Reservation cancelReservation(Long id) {
+        Optional<Reservation> reserva = this.reservationRepository.findById(id);
+
+        Reservation reservaReal = reserva.get();
+
+        reservaReal.setState(StateEnum.CANCELADA);
+
+        return this.reservationRepository.save(reservaReal);
+    }
+
+    public List<Reservation> findReservationsByDay(String day) {
+        LocalDate dayParsed = LocalDate.parse(day);
+        return reservationRepository.findByDayOrderByStartDate(dayParsed);
+    }
+
+    public List<Reservation> findAll() {
+        return this.reservationRepository.findAll();
     }
 }
