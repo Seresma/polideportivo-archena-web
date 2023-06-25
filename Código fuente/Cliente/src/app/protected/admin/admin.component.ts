@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {DateAdapter} from "@angular/material/core";
-import {ReservationResponse, Usuario} from "../../auth/interfaces/interfaces";
+import {Instalacion, ReservationResponse, Usuario} from "../../auth/interfaces/interfaces";
 import {MatTableDataSource} from "@angular/material/table";
 import {AuthService} from "../../auth/services/auth.service";
 import {MatPaginator} from "@angular/material/paginator";
@@ -11,6 +11,11 @@ import {MatDialog} from "@angular/material/dialog";
 import {EditUserDialogComponent} from "../../components/edit-user-dialog/edit-user-dialog.component";
 import {NewUserDialogComponent} from "../../components/new-user-dialog/new-user-dialog.component";
 import {ReservationService} from "../dashboard/services/reservation.service";
+import {InstalationService} from "../dashboard/services/instalation.service";
+import {
+  EditInstalationDialogComponent
+} from "../../components/edit-instalation-dialog/edit-instalation-dialog.component";
+import {NewInstalationDialogComponent} from "../../components/new-instalation-dialog/new-instalation-dialog.component";
 
 let listaUsuarios: Usuario[] = [];
 
@@ -29,9 +34,12 @@ export class AdminComponent {
   fechaBuscada = new Date();
   deporteBuscado = '';
 
-  displayedColumns: string[] = ['username', 'email', 'role', 'actions'];
+  displayedColumnsUsers: string[] = ['username', 'email', 'role', 'actions'];
   // @ts-ignore
-  dataSource: MatTableDataSource<any>;
+  dataSourceUsers: MatTableDataSource<any>;
+
+  // @ts-ignore
+  dataSourceInstalaciones: MatTableDataSource<any>;
 
   // @ts-ignore
   numUsuarios: number;
@@ -50,11 +58,16 @@ export class AdminComponent {
   dataSourceReservas: MatTableDataSource<any>;
   displayedColumnsReservas: string[] = ['id', 'track', 'name', 'fechaCreated', 'fechaReserva', 'coste', 'estado', 'actions'];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginatorUsers!: MatPaginator;
 
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatSort) sortUsers!: MatSort;
 
-  reservasTotales: ReservationResponse[] = [];
+  displayedColumnsInst: string[] = ['inst_name', 'inst_sport', 'inst_init', 'inst_end', 'inst_intervals', 'inst_cost', 'inst_actions'];
+
+  @ViewChild(MatPaginator) paginatorInst!: MatPaginator;
+
+  @ViewChild(MatSort) sortInst!: MatSort;
+
   pistaFutbol = 'Campo municipal de fútbol "Andrés Abenza"';
 
   pistaTenis = 'Pista dura';
@@ -66,14 +79,15 @@ export class AdminComponent {
   pistaNatacion = 'Piscina municipal climatizada';
 
   // @ts-ignore
-  @ViewChild(MatPaginator) paginator2: MatPaginator;
+  @ViewChild(MatPaginator) paginatorReserv: MatPaginator;
   // @ts-ignore
-  @ViewChild(MatSort) sort2: MatSort;
+  @ViewChild(MatSort) sortReserv: MatSort;
 
   constructor(private dateAdapter: DateAdapter<Date>,
               private authService: AuthService,
               private dialog: MatDialog,
-              private reservationService: ReservationService) {
+              private reservationService: ReservationService,
+              private instalacionService: InstalationService) {
 
     this.dateAdapter.setLocale('es');
     this.dateAdapter.getFirstDayOfWeek = () => {
@@ -84,21 +98,25 @@ export class AdminComponent {
 
     usuarios.subscribe(usuariosGod => {
       // Inicializar la fuente de datos de la tabla con los datos obtenidos
-      this.dataSource = new MatTableDataSource<any>(usuariosGod.reverse());
+      this.dataSourceUsers = new MatTableDataSource<any>(usuariosGod.reverse());
 
-      this.numUsuarios = usuariosGod.length
+      this.numUsuarios = usuariosGod.length;
 
-      // Conectar el paginador a la fuente de datos
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      listaUsuarios = usuariosGod;
     });
 
     this.cargarReservasTotales();
+
+    this.dataSourceInstalaciones = new MatTableDataSource<any>(this.instalacionService.getInstalaciones());
   }
 
   ngAfterViewInit() {
-    this.dataSourceReservas.paginator = this.paginator2;
-    this.dataSourceReservas.sort = this.sort2;
+    this.dataSourceUsers.paginator = this.paginatorUsers;
+    this.dataSourceUsers.sort = this.sortUsers;
+    this.dataSourceReservas.paginator = this.paginatorReserv;
+    this.dataSourceReservas.sort = this.sortReserv;
+    this.dataSourceInstalaciones.paginator = this.paginatorInst;
+    this.dataSourceInstalaciones.sort = this.sortInst;
   }
 
 
@@ -112,6 +130,8 @@ export class AdminComponent {
         this.reservationService.getReservations(this.parseDate(), this.pistaFutbol)
           .subscribe(reservations => {
             this.dataSourceReservas = new MatTableDataSource<any>(reservations.reverse());
+            this.dataSourceReservas.paginator = this.paginatorReserv;
+            this.dataSourceReservas.sort = this.sortReserv;
           });
         break;
       case 'Tenis':
@@ -119,6 +139,8 @@ export class AdminComponent {
         this.reservationService.getReservations(this.parseDate(), this.pistaTenis)
           .subscribe(reservations => {
             this.dataSourceReservas = new MatTableDataSource<any>(reservations.reverse());
+            this.dataSourceReservas.paginator = this.paginatorReserv;
+            this.dataSourceReservas.sort = this.sortReserv;
           });
         break;
       case 'Baloncesto':
@@ -126,6 +148,8 @@ export class AdminComponent {
         this.reservationService.getReservations(this.parseDate(), this.pistaBaloncesto)
           .subscribe(reservations => {
             this.dataSourceReservas = new MatTableDataSource<any>(reservations.reverse());
+            this.dataSourceReservas.paginator = this.paginatorReserv;
+            this.dataSourceReservas.sort = this.sortReserv;
           });
         break;
       case 'Frontón':
@@ -133,6 +157,8 @@ export class AdminComponent {
         this.reservationService.getReservations(this.parseDate(), this.pistaFronton)
           .subscribe(reservations => {
             this.dataSourceReservas = new MatTableDataSource<any>(reservations.reverse());
+            this.dataSourceReservas.paginator = this.paginatorReserv;
+            this.dataSourceReservas.sort = this.sortReserv;
           });
         break;
       case 'Natación':
@@ -140,6 +166,8 @@ export class AdminComponent {
         this.reservationService.getReservations(this.parseDate(), this.pistaNatacion)
           .subscribe(reservations => {
             this.dataSourceReservas = new MatTableDataSource<any>(reservations.reverse());
+            this.dataSourceReservas.paginator = this.paginatorReserv;
+            this.dataSourceReservas.sort = this.sortReserv;
           });
         break;
       default:
@@ -147,21 +175,23 @@ export class AdminComponent {
         this.reservationService.getAllReservationsByDay(this.parseDate())
           .subscribe(reservas => {
             this.dataSourceReservas = new MatTableDataSource<any>(reservas.reverse());
+            this.dataSourceReservas.paginator = this.paginatorReserv;
+            this.dataSourceReservas.sort = this.sortReserv;
           });
         break;
     }
   }
 
   eliminarUsuario(user: Usuario, index: number) {
-    this.authService.deleteUser(user.id).subscribe(() => Swal.fire('Éxito', "Usuario eliminado correctamente", 'success'));
-    this.dataSource = new MatTableDataSource<any>(listaUsuarios.slice(0, index).concat(listaUsuarios.slice(index + 1)));
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.authService.deleteUser(user.id).subscribe(() => Swal.fire('Éxito', "Usuario eliminado correctamente.", 'success'));
+    this.dataSourceUsers = new MatTableDataSource<any>(listaUsuarios.slice(0, index).concat(listaUsuarios.slice(index + 1)));
+    this.dataSourceUsers.paginator = this.paginatorUsers;
+    this.dataSourceUsers.sort = this.sortUsers;
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSourceUsers.filter = filterValue.trim().toLowerCase();
   }
 
   openEditUserDialog(usuario: Usuario) {
@@ -177,13 +207,15 @@ export class AdminComponent {
 
       usuarios.subscribe(usuariosGod => {
         // Inicializar la fuente de datos de la tabla con los datos obtenidos
-        this.dataSource = new MatTableDataSource<any>(usuariosGod.reverse());
+        this.dataSourceUsers = new MatTableDataSource<any>(usuariosGod.reverse());
 
-        this.numUsuarios = usuariosGod.length
+        this.numUsuarios = usuariosGod.length;
+
+        listaUsuarios = usuariosGod;
 
         // Conectar el paginador a la fuente de datos
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSourceUsers.paginator = this.paginatorUsers;
+        this.dataSourceUsers.sort = this.sortUsers;
       });
       // Aquí puedes poner el código que deseas ejecutar después de los 5 segundos
     }, 15000);
@@ -200,13 +232,15 @@ export class AdminComponent {
 
       usuarios.subscribe(usuariosGod => {
         // Inicializar la fuente de datos de la tabla con los datos obtenidos
-        this.dataSource = new MatTableDataSource<any>(usuariosGod.reverse());
+        this.dataSourceUsers = new MatTableDataSource<any>(usuariosGod.reverse());
 
-        this.numUsuarios = usuariosGod.length
+        this.numUsuarios = usuariosGod.length;
+
+        listaUsuarios = usuariosGod;
 
         // Conectar el paginador a la fuente de datos
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSourceUsers.paginator = this.paginatorUsers;
+        this.dataSourceUsers.sort = this.sortUsers;
       });
       // Aquí puedes poner el código que deseas ejecutar después de los 5 segundos
     }, 15000);
@@ -349,6 +383,44 @@ export class AdminComponent {
         this.deporteFav = reservas[0].sport;
         this.costeTotal = total;
       });
+  }
+
+  applyFilterReserva(event: KeyboardEvent) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceReservas.filter = filterValue.trim().toLowerCase();
+  }
+
+  applyFilterInstalaciones(event: KeyboardEvent) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceInstalaciones.filter = filterValue.trim().toLowerCase();
+  }
+
+  eliminarInstalacion(index: number) {
+    Swal.fire('Éxito', "Instalación eliminada correctamente.", 'success');
+    this.instalacionService.eliminarInstalacion(index);
+    this.dataSourceInstalaciones = new MatTableDataSource<any>(this.instalacionService.getInstalaciones());
+  }
+
+  openEditInstalationDialog(instalacion: Instalacion, i: number) {
+
+    const dialogRef = this.dialog.open(EditInstalationDialogComponent, {
+      width: '700px',
+      data: {
+        instalacion: instalacion,
+        index: i
+      }
+    });
+  }
+
+  openNewInstalacionDialog() {
+    const dialogRef = this.dialog.open(NewInstalationDialogComponent, {
+      width: '700px',
+    });
+
+    setTimeout(() => {
+      this.dataSourceInstalaciones = new MatTableDataSource<any>(this.instalacionService.getInstalaciones());
+      // Aquí puedes poner el código que deseas ejecutar después de los 5 segundos
+    }, 30000);
   }
 
 }

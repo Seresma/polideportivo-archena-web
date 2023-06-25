@@ -10,6 +10,8 @@ import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 import {EditUserDialogComponent} from "../components/edit-user-dialog/edit-user-dialog.component";
 import {NewUserDialogComponent} from "../components/new-user-dialog/new-user-dialog.component";
+import {NewInstalationDialogComponent} from "../components/new-instalation-dialog/new-instalation-dialog.component";
+import {EditInstalationDialogComponent} from "../components/edit-instalation-dialog/edit-instalation-dialog.component";
 
 
 @NgModule({
@@ -18,6 +20,8 @@ import {NewUserDialogComponent} from "../components/new-user-dialog/new-user-dia
     ReservationDialogComponent,
     EditUserDialogComponent,
     NewUserDialogComponent,
+    NewInstalationDialogComponent,
+    EditInstalationDialogComponent,
     AdminComponent,
     UserComponent
   ],

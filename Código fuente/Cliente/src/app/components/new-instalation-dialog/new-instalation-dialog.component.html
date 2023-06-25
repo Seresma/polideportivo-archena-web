@@ -1,0 +1,97 @@
+<button mat-icon-button style="float: right; margin: 5px" (click)="onNoClick()">
+  <mat-icon>close</mat-icon>
+</button>
+
+<mat-dialog-content class="dialog-content">
+  <header><h1>Crear instalación</h1></header>
+  <br>
+  <form class="my-form d-flex flex-column"
+        autocomplete="off"
+        [formGroup]="miFormulario"
+        (ngSubmit)="crear()">
+    <input type="file" (change)="onFileSelected($event)" accept="image/*">
+    <br>
+    <h4>Información</h4>
+    <mat-form-field appearance="fill" class="mb-3">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-icon matSuffix>fitness_center</mat-icon>
+    </mat-form-field>
+    <div class="campos-container">
+      <mat-form-field class="campos">
+        <mat-label>Deporte</mat-label>
+        <mat-select formControlName="sport" [(ngModel)]="deporteSeleccionado" required>
+          <mat-option value="Fútbol">Fútbol</mat-option>
+          <mat-option value="Baloncesto">Baloncesto</mat-option>
+          <mat-option value="Tenis">Tenis</mat-option>
+          <mat-option value="Frontón">Frontón</mat-option>
+          <mat-option value="Natación">Natación</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <h4>Coste</h4>
+      <mat-form-field appearance="fill" class="campos">
+        <mat-label>Precio</mat-label>
+        <input matInput formControlName="cost" placeholder="0.00" required>
+        <mat-icon matSuffix>attach_money</mat-icon>
+      </mat-form-field>
+      <h4>Horario</h4>
+      <mat-form-field class="campos">
+        <mat-label>Hora inicio</mat-label>
+        <mat-select formControlName="initDate" [(ngModel)]="fechaInicioSeleccionada" required>
+          <mat-option value="09:00">09:00</mat-option>
+          <mat-option value="10:00">10:00</mat-option>
+          <mat-option value="11:00">11:00</mat-option>
+          <mat-option value="12:00">12:00</mat-option>
+          <mat-option value="13:00">13:00</mat-option>
+          <mat-option value="14:00">14:00</mat-option>
+          <mat-option value="15:00">15:00</mat-option>
+          <mat-option value="16:00">16:00</mat-option>
+          <mat-option value="17:00">17:00</mat-option>
+          <mat-option value="18:00">18:00</mat-option>
+          <mat-option value="19:00">19:00</mat-option>
+          <mat-option value="20:00">20:00</mat-option>
+          <mat-option value="21:00">21:00</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="campos">
+        <mat-label>Hora fin</mat-label>
+        <mat-select formControlName="endDate" [(ngModel)]="fechaFinSeleccionada" required>
+          <mat-option value="12:00">12:00</mat-option>
+          <mat-option value="13:00">13:00</mat-option>
+          <mat-option value="14:00">14:00</mat-option>
+          <mat-option value="15:00">15:00</mat-option>
+          <mat-option value="16:00">16:00</mat-option>
+          <mat-option value="17:00">17:00</mat-option>
+          <mat-option value="18:00">18:00</mat-option>
+          <mat-option value="19:00">19:00</mat-option>
+          <mat-option value="20:00">20:00</mat-option>
+          <mat-option value="21:00">21:00</mat-option>
+          <mat-option value="22:00">22:00</mat-option>
+          <mat-option value="23:00">23:00</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="campos">
+        <mat-label>Intervalos</mat-label>
+        <mat-select formControlName="interval" [(ngModel)]="intervaloSeleccionado" required>
+          <mat-option value="30 min">30 min</mat-option>
+          <mat-option value="1h">1h</mat-option>
+          <mat-option value="1h 30min">1h 30min</mat-option>
+          <mat-option value="2h">2h</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+
+</mat-dialog-content>
+
+<div mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" (click)="crear()">
+    <mat-icon>add</mat-icon>
+    Crear
+  </button>
+  <button mat-raised-button color="warn" (click)="onNoClick()">
+    <mat-icon>cancel</mat-icon>
+    Cancelar
+  </button>
+</div>

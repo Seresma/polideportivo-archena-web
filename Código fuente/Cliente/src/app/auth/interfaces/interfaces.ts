@@ -28,3 +28,12 @@ export interface ReservationResponse {
   createdDate?: Date;
 }
 
+export interface Instalacion {
+  name: string;
+  sport: string;
+  startHour: string;
+  endHour: string;
+  intervals: string;
+  cost: number;
+}
+

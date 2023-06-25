@@ -33,6 +33,7 @@ export class EditUserDialogComponent {
                private authService: AuthService) {
 
     this.user = data.user;
+    this.rolSeleccionado = data.user.role
   }
 
   onNoClick(): void {

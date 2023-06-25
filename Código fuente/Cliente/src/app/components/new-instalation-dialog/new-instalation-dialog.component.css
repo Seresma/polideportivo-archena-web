@@ -1,0 +1,23 @@
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  margin-bottom: 5px;
+}
+
+mat-icon {
+  vertical-align: middle;
+  margin-bottom: 0px;
+}
+
+.campos {
+  width: 25%;
+  margin-right: 40px;
+}
+
+@media (max-width: 600px) {
+  .campos {
+    width: 80%;
+  }
+}

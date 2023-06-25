@@ -13,7 +13,6 @@
 
 mat-icon {
   vertical-align: middle;
-  margin-bottom: 3px;
 }
 
 table {
@@ -43,7 +42,11 @@ table {
 
 @media (max-width: 700px) {
   .boton-nuevo-usuario {
-    width: 60%;
+    width: 50%;
+  }
+
+  .boton-nueva-instalacion {
+    width: 70%;
   }
 }
 
@@ -76,6 +79,10 @@ table {
 
 @media (max-width: 600px) {
   .statistics-container {
+    display: block;
+  }
+
+  .acciones {
     display: block;
   }
 }
